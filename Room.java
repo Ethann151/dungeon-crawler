@@ -25,57 +25,85 @@ public class Room {
    public Monster getMonsterInRoom(int value) {return monstersInRoom.get(value);}
    public Item getItemInRoom(int value) {return itemsInRoom.get(value);}
    
-   public void addItemToRoom(Item item) {
-      itemsInRoom.add(item);
+   public Monster getMonsterInRoomFromString(String target) {
+      for(int i = 0; i < monstersInRoom.size(); i++) {
+         if(monstersInRoom.get(i).toString().toUpperCase().contains(target)) {
+            return monstersInRoom.get(i);
+         }
+      }
+      return null;
    }
-   public void removeItemFromRoom(Item item) {
+   public Item getItemInRoomFromString(String target) {
+      for(int i = 0; i < itemsInRoom.size(); i++) {
+         if(itemsInRoom.get(i).toString().toUpperCase().contains(target)) {
+            return itemsInRoom.get(i);
+         }
+      }
+      return null;
+   }
+      
+   
+   public Item addItemToRoom(Item item) {
+      itemsInRoom.add(item);
+      return item;
+   }
+   public Item removeItemFromRoom(Item item) {
       itemsInRoom.remove(item);
+      return item;
    }
    //Testing:/boss summon
-   public void addMonsterToRoom(Monster monster) {
+   public Monster addMonsterToRoom(Monster monster) {
       monstersInRoom.add(monster);
+      return monster;
    }
-   public void removeMonsterFromRoom(Monster monster) {
+   public Monster removeMonsterFromRoom(Monster monster) {
       monstersInRoom.remove(monster);
+      return monster;
    }
 
    
    public String toString() {
+   //Implement detection for 2 monsters/items
    String returnString;
       if(itemsInRoom.size() == 0 && monstersInRoom.size() == 0) {
-         returnString = "Scanning the illuminated room, you notice nothing of note";
+         returnString = "Scanning the illuminated room, you find nothing of note";
       } else {
          returnString = "Through the torchlight, you are able to make out a";
-         if(monstersInRoom.size() == 1) {returnString+=" single";}
-         for(int i = 0; i < itemsInRoom.size(); i++) {
-            String firstChar = itemsInRoom.get(i).toString().substring(0, 1).toLowerCase();
-            if(firstChar.equals("a") || firstChar.equals("e") || firstChar.equals("i") || firstChar.equals("o") || firstChar.equals("u")) {
-               returnString += "n";
-            }
-            returnString += " "+itemsInRoom.get(i).toString().toLowerCase();
-            if(i < itemsInRoom.size() - 1) {
-               if(i < itemsInRoom.size() - 2) {returnString += ", a";}
-               else {returnString += ", and a";}
-            }
+         if(itemsInRoom.size() == 1) {
+            returnString+=" single";
          }
+            for(int i = 0; i < itemsInRoom.size(); i++) {
+               if(itemsInRoom.size() != 1) {
+                  String firstChar = itemsInRoom.get(i).toString().substring(0, 1).toLowerCase();
+                  if(firstChar.equals("a") || firstChar.equals("e") || firstChar.equals("i") || firstChar.equals("o") || firstChar.equals("u")) {
+                     returnString += "n";
+                  }
+               }
+               returnString += " "+itemsInRoom.get(i).toString().toLowerCase();
+               if(i < itemsInRoom.size() - 1) {
+                  if(i < itemsInRoom.size() - 2) {returnString += ", a";}
+                  else {returnString += " and a";}
+               }
+            }
+      }
+         
          if(monstersInRoom.size() > 0) {
             if(itemsInRoom.size() > 0) {
                returnString += "; however it is fiercly guarded by a";
             }
-               for(int i = 0; i < monstersInRoom.size(); i++) {
-                  String firstChar = monstersInRoom.get(i).toString().substring(0, 1).toLowerCase();
-                  if(firstChar.equals("a") || firstChar.equals("e") || firstChar.equals("i") || firstChar.equals("o") || firstChar.equals("u")) {
-                     returnString += "n";
-                  }
-                  returnString += " "+monstersInRoom.get(i);
-                  if(i < monstersInRoom.size() - 1) {
-                     if(i < monstersInRoom.size() - 2) {returnString += ", a";}
-                     else {returnString += ", and a";}
-                  }
+            for(int i = 0; i < monstersInRoom.size(); i++) {
+               String firstChar = monstersInRoom.get(i).toString().substring(0, 1).toLowerCase();
+               if(firstChar.equals("a") || firstChar.equals("e") || firstChar.equals("i") || firstChar.equals("o") || firstChar.equals("u")) {
+                  returnString += "n";
                }
-            returnString += "..";
+               returnString += " "+monstersInRoom.get(i);
+               if(i < monstersInRoom.size() - 1) {
+                  if(i < monstersInRoom.size() - 2) {returnString += ", a";}
+                  else {returnString += " and a";}
+               }
+            }
+         returnString += "..";
          }
-      }
-      return returnString+".\n\n";
+   return returnString+".\n\n";
    }
 }
