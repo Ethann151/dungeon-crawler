@@ -245,7 +245,7 @@ public class Game {
             }
             else if (input.startsWith("FIGHT ")) {
                String target = input.substring(6);
-               if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().toString().toUpperCase().contains(target)) {
+               if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom() != null && dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().toString().toUpperCase().contains(target)) {
                   inCombat = true;
                   MC.beginCombat(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoomFromString(target));
                } else {
@@ -267,14 +267,21 @@ public class Game {
                +combatStatus+" - Combat status\n"
                );
             }
-            else if (!input.startsWith("MOVE ") && !input.startsWith("WALK ")) {
+            else if (!input.startsWith("MOVE ") && !input.startsWith("WALK ") && !input.startsWith("GO ") && !input.startsWith("UP") && !input.startsWith("DOWN") && !input.startsWith("LEFT") && !input.startsWith("RIGHT")) {
                System.out.println("[ Action not recognized. Use \"Help\" for a list of applicable commands. ]\n");
             }
 
             // Movement
             mainloop:
-            if (input.startsWith("MOVE ") || input.startsWith("WALK ")) {
-               String direction = input.substring(5);
+            if (input.startsWith("MOVE ") || input.startsWith("WALK ") || input.startsWith("GO ") || input.startsWith("UP") || input.startsWith("DOWN") || input.startsWith("LEFT") || input.startsWith("RIGHT")) {
+               String direction;
+               if(input.startsWith("GO ")) {
+                  direction = input.substring(3);
+               } else if (input.startsWith("MOVE ") || input.startsWith("WALK ")) {
+                  direction = input.substring(5);
+               } else {
+                  direction = input.substring(0);
+               }
                String NESW;
                if ((direction.equals("UP") || direction.equals("FORWARD") || direction.equals("FORWARDS") || direction.equals("NORTH") || direction.equals("N")) && (MC.getY()+1 < dungeonMap.getNumRows()-1)) {
                MC.moveTo(MC.getX(), MC.getY()+1);
