@@ -46,7 +46,7 @@ public class Item {
             "Iron Chestplate",
             "Wooden Shield",
         };
-   private int randomID = (int) (((itemTypes.length-8) * Math.random())+8);
+   private int randomID = (int) (((itemTypes.length-9) * Math.random())+9);
 
    public Item() {
       if(predetermined) {

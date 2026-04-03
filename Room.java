@@ -104,6 +104,10 @@ public class Room {
             }
          returnString += "..";
          }
+         if(returnString.length() > 85 && returnString.substring(80).indexOf(" ") != -1) {
+            int newIndex = returnString.substring(80).indexOf(" ")+80;
+            returnString = returnString.substring(0, newIndex)+"\n"+returnString.substring(newIndex+1);
+         }
    return returnString+".\n\n";
    }
 }

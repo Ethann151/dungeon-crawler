@@ -394,7 +394,7 @@ public class Game {
                MC.moveTo(MC.getX()+1, MC.getY());
                NESW = "East";
                } else {
-                  System.out.println("You find yourself before a flat wall, with no discernable way forward... Perhaps you should try a different direction?\n");
+                  System.out.println("You find yourself before a flat wall, with no discernable way forward... Perhaps you\nshould try a different direction?\n");
                   break mainloop;
                }
                if(MC.hasItem("Compass")) {

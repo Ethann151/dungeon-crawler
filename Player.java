@@ -110,26 +110,32 @@ public class Player {
    
    public boolean useItem(String chosenItem) {
       if((chosenItem.equals("MAP") || chosenItem.equals("TATTERED MAP")) && hasItem("Tattered Map")) {
-         if(hasItem("Lit Torch [3]") || hasItem("Lit Torch [2]")) {
-            System.out.print("> With the torchlight illuminating your map, you see that you are within the ");
-         } else if(hasItem("Lit Torch [1]")) {
-            System.out.print("> With the flickering torchlight dimly illuminating your map, you can see that you are within the ");
-         } else {
-            System.out.print("> Squinting, you are barely able to make out that you are within the ");
+         String returnString = "";
+            if(hasItem("Lit Torch [3]") || hasItem("Lit Torch [2]")) {
+               returnString+="> With the torchlight illuminating your map, you see that you are within the ";
+            } else if(hasItem("Lit Torch [1]")) {
+               returnString+="> With the flickering torchlight dimly illuminating your map, you can see that you are within the ";
+            } else {
+               returnString+="> Squinting, you are barely able to make out that you are within the ";
+            }
+            if(currentY == 0) {returnString+=currentY+1+"st ";
+            } else if(currentY == 1) {returnString+=currentY+1+"nd ";
+            } else if(currentY == 2) {returnString+=currentY+1+"rd ";
+            } else {returnString+=currentY+1+"th ";
+            } returnString+="room to the North, and the ";
+            if(currentX == 0) {returnString+=currentX+1+"st ";
+            } else if(currentX == 1) {returnString+=currentX+1+"nd ";
+            } else if(currentX == 2) {returnString+=currentX+1+"rd ";
+            } else {returnString+=currentX+1+"th ";
+            } returnString+="room to the East.";
+         if(returnString.length() > 85 && returnString.substring(80).indexOf(" ") != -1) {
+            int newIndex = returnString.substring(80).indexOf(" ")+80;
+            returnString = returnString.substring(0, newIndex)+"\n"+returnString.substring(newIndex+1);
          }
-         if(currentY == 0) {System.out.print(currentY+1+"st ");
-         } else if(currentY == 1) {System.out.print(currentY+1+"nd ");
-         } else if(currentY == 2) {System.out.print(currentY+1+"rd ");
-         } else {System.out.print(currentY+1+"th ");
-         } System.out.print("room to the North, and the ");
-         if(currentX == 0) {System.out.print(currentX+1+"st ");
-         } else if(currentX == 1) {System.out.print(currentX+1+"nd ");
-         } else if(currentX == 2) {System.out.print(currentX+1+"rd ");
-         } else {System.out.print(currentX+1+"th ");
-         } System.out.println("room to the East.");
+         System.out.println(returnString);
          
       } else if((chosenItem.equals("TORCH") || chosenItem.equals("UNLIT TORCH")) && hasItem("Unlit Torch")) {
-         System.out.println("Finding a couple rocks beside your feet, you strike them against eachother repeatedly; eventually generating a spark great enough to ignite your torch.\n> ...You feel this will only last you a few rooms of travel.");
+         System.out.println("Finding a couple rocks beside your feet, you strike them against eachother repeatedly;\neventually generating a spark great enough to ignite your torch.\n> ...You feel this will only last you a few rooms of travel.");
          removeStringItemFromInventory("Unlit Torch");
          addItemToInventory(Item.forceNewItem(4));
          
