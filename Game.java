@@ -17,7 +17,7 @@ public class Game {
       Game game = new Game();
       Map dungeonMap = new Map(12, 11);
       Scanner scanner = new Scanner(System.in);
-      Player MC = new Player(0, "Hero", ((int)Math.random()*12 + (int)(1+Math.random()*6)), ((int)Math.random()*12 + (int)(1+Math.random()*6)), null, null, null, null, null);
+      Player MC = new Player(100, "Hero", ((int)Math.random()*12 + (int)(1+Math.random()*6)), ((int)Math.random()*12 + (int)(1+Math.random()*6)), null, null, null, null, null);
       MC.addItemToInventory(Item.forceNewItem(3));
       MC.addItemToInventory(Item.forceNewItem(2));
       MC.addItemToInventory(Item.forceNewItem(1));
