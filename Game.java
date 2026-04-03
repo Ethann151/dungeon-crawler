@@ -184,11 +184,13 @@ public class Game {
                } else {System.out.println("[ \" I can't do this right now. \" ]");}
             }
             else if(input.startsWith("TAKE ")) {
+               boolean success = false;
                String chosenItem = input.substring(5);
                ArrayList<Item> itemsInRoom = dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom();
                if(!inCombat) {
                   for(int i = 0; i < itemsInRoom.size(); i++) {
                      if(itemsInRoom.get(i).toString().toUpperCase().contains(chosenItem)) {
+                        success = true;
                         if(MC.hasItem("Lit Torch [3]") || MC.hasItem("Lit Torch [2]") || MC.hasItem("Lit Torch [1]")) {
                            if(!itemsInRoom.get(i).isNewItem()) {
                               System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+", hoping nothing minds you taking it.");
@@ -212,8 +214,8 @@ public class Game {
                         MC.addItemToInventory(itemsInRoom.get(i));
                         dungeonMap.getRoom(MC.getX(), MC.getY()).removeItemFromRoom(itemsInRoom.get(i));
                         System.out.println("");
-                     } else{System.out.println("You cannot find an item by that name within this room. Maybe you are looking for something else?..\n[ Attempted item: "+chosenItem+" ]\n");}
-                  }
+                     }
+                  } System.out.println("You cannot find an item by that name within this room. Maybe you are looking for something else?..\n[ Attempted item: "+chosenItem+" ]\n");
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom(); - Monster arraylist
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom(); - Item arraylist
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
@@ -224,7 +226,7 @@ public class Game {
                   if(MC.hasItem(chosenItem)) {
                      String removedItem = MC.getItemFromInventory(chosenItem).toString();
                      if(removedItem.equals("Lit Torch [3]") || removedItem.equals("Lit Torch [2]") || removedItem.equals("Lit Torch [1]")) {
-                        System.out.println("As you toss your torch, you watch the flame extinguish itself against the cold cobblestones beneath you.\n> You doubt it will be of use anymore.\n"); 
+                        System.out.println("As you toss your torch, you watch the flame extinguish itself against the cold\ncobblestones beneath you.\n> You doubt it will be of use anymore.\n"); 
                         MC.removeItemFromInventory(MC.getItemFromInventory(chosenItem));
                      } else {
                         dungeonMap.getRoom(MC.getX(), MC.getY()).addItemToRoom(MC.getItemFromInventory(chosenItem)).setNewItem(false);
@@ -237,7 +239,7 @@ public class Game {
                         System.out.println("> You throw your "+removedItem.toLowerCase()+" to the ground.\n");
                      }
                   } else {
-                     System.out.println("You thoroughly search your bag; however cannot find an item by that name. Perhaps you are looking for the wrong thing?..");
+                     System.out.println("You thoroughly search your bag; however cannot find an item by that name. Perhaps you\nare looking for the wrong thing?..");
                      System.out.println("[ Attempted item: "+chosenItem+" ]\n");
                   }
                } else{System.out.println("[ \" I shouldn't do this right now. \" ]\n");}
@@ -259,7 +261,7 @@ public class Game {
                } else if(MC.getItemFromInventory(targetItem) != null) {
                System.out.println(MC.getItemFromInventory(targetItem).inspectItem());
                } else {
-                  System.out.println("You thoroughly search your bag; however cannot find an item by that name. Perhaps you are looking for the wrong thing?..");
+                  System.out.println("You thoroughly search your bag; however cannot find an item by that name. Perhaps you\nare looking for the wrong thing?..");
                   System.out.println("[ Attempted item: "+targetItem+" ]\n");
                }
             }
@@ -268,14 +270,14 @@ public class Game {
             // Combat
             else if (inCombat != true && input.startsWith("FIGHT ")) {
                String target = input.substring(6);
-               if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom() != null && dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().toString().toUpperCase().contains(target)) {
+               if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().toString().toUpperCase().contains(target)) {
                   currentStage = "Upkeep";
                   allottedItems = 1;
                   inCombat = true;
                   enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoomFromString(target);
                   getCombatMenu(allottedItems);
                } else {
-                  System.out.println("...You cannot identify your target within the close confines of this room. Perhaps you should place your priorities elsewhere?..");
+                  System.out.println("...You cannot identify your target within the close confines of this room. Perhaps you\nshould place your priorities elsewhere?..");
                   System.out.println("[ Attempted combatant: "+target+" ]\n");
                }
             }
@@ -303,7 +305,7 @@ public class Game {
             }
             else if (inCombat == true && input.startsWith("DEFEND")) {
                playerStatus = "Defending";
-               System.out.println("You assume a defensive stance, preparing for the worst.\n\n[ Press [ENTER] to proceed.]\n");
+               System.out.println("You assume a defensive stance, preparing for the worst.\n\n[ Press [ENTER] to proceed.]");
                allottedItems = 2;
                currentStage = "Enemy";
             }
@@ -413,7 +415,7 @@ public class Game {
                   System.out.println("> Your torch flickers.. And then goes out completely. As darkness rapidly engulfs you, you get the sense that you are being watched.");
                }
                if(MC.hasItem("Tattered Map")) {
-                  System.out.print(". . .\nAfter some time, you think it wise to open your map and try to discern your current location.\n");
+                  System.out.print(". . .\nAfter some time, you think it wise to open your map and try to discern your current\nlocation.\n");
                   MC.useItem("MAP");
                } else {
                   System.out.print("[ \"Shit... I really wish I had a map on me.\" ]\n");
