@@ -8,6 +8,7 @@ public class Game {
    public static void main(String[] args) {
       int allottedItems = 1;
       int combatDuration = 0;
+      boolean commandPrompt = true;
       String currentStage = "Upkeep";
       String playerStatus = null;
       boolean exitGame = false;
@@ -16,7 +17,7 @@ public class Game {
       Game game = new Game();
       Map dungeonMap = new Map(12, 11);
       Scanner scanner = new Scanner(System.in);
-      Player MC = new Player(200, "Hero", ((int) Math.random()*12 + 1), ((int) Math.random()*11 + 1), null, null, null, null, null);
+      Player MC = new Player(200, "Hero", ((int)Math.random()*12 + (int)(1+Math.random()*6)), ((int)Math.random()*12 + (int)(1+Math.random()*6)), null, null, null, null, null);
       MC.addItemToInventory(Item.forceNewItem(3));
       MC.addItemToInventory(Item.forceNewItem(2));
       MC.addItemToInventory(Item.forceNewItem(1));
@@ -26,7 +27,10 @@ public class Game {
       MC.addItemToInventory(Item.forceNewItem(13));
       
       while (exitGame != true) {
+         if(commandPrompt) {
             System.out.print("Enter command: ");
+         }
+         else {commandPrompt = true;}
             String input = scanner.nextLine().toUpperCase();
             
             if (input.equals("EXIT")) {
@@ -50,8 +54,8 @@ public class Game {
             }
             else if (input.equals("HELP - COMBAT") || input.equals("HELP-COMBAT") || input.equals("HELP COMBAT") || input.equals("COMBAT HELP")) {
             int initialHealth = MC.getHP();
-               System.out.println("\n\n\n\n\n\n\n\n\n\nUpon initiating combat with a monster,\nyou will be presented with the option of either:");
-               System.out.println("                                         ----------------------------"
+               System.out.println("Upon initiating combat with a monster, you\nwill be presented with the option of either:");
+               System.out.println("\n\n\n\n\n                                         ----------------------------"
                               +"\n                                         | Attack | Defend |  Item  |"
                               +"\n[ Press [ENTER] to proceed. ]            ----------------------------");
                input = scanner.nextLine();
@@ -67,23 +71,23 @@ public class Game {
               } if (input.contains("")) {
                   System.out.println("[ You hit [ENEMY] for 17 damage! ]");
                   System.out.println("[ENEMY] has 33 health remaining.\n");
-                  System.out.println("Having finished your attack stage, it is now the enemy's turn. Their first attack will always do the same \namount of damage relative to their typing; however subsequent attacks will scale in damage indefinitely.\n[ Press [ENTER] to proceed.]");
+                  System.out.println("Having finished your attack stage, it is now the enemy's turn. Their first attack will\nalways do the same amount of damage relative to their typing; however subsequent attacks\nwill scale in damage indefinitely.\n[ Press [ENTER] to proceed.]");
                   input = scanner.nextLine();
               } if (input.contains("")) {
                   System.out.println("[ Enemy hit you for 15 damage. ]\n\n[ Press [ENTER] to proceed.]");
                   MC.setHP(20);
                   input = scanner.nextLine();
               } if (input.contains("")) {
-                  System.out.println("\n\n\n\n\n\n\n\n\n\nThat marks the end of the first combat cycle.\nIn order to check your remaining health, you must use the Check Health command; which will give you a\nrough estimate of your current health.");
-                  System.out.println("                                         ----------------------------"
+                  System.out.println("\nThat marks the end of the first combat cycle.\nIn order to check your remaining health, you must use the \"Check Health\" command; which\nwill give you a rough estimate of your current health.");
+                  System.out.println("\n\n\n\n\n                                         ----------------------------"
                               +"\n                                         | Attack | Defend |  Item  |"
                               +"\n[ Check your health. ]                   ----------------------------");
                   System.out.print("Enter Command: Check Health");
                   input = scanner.nextLine();
               } if (input.contains("")) {
                   System.out.print("[ \""+MC.getHealthPercentage()+"\" ]\n\n");
-                  System.out.println("Looks like you're hurt pretty bad. Luckily, you're able to use up to one item at the upkeep of your turn.\nCheck your inventory for any items worth using.\n[ Use a healing potion. ]\n");
-                  MC.addItemToInventory(Item.forceNewItem(12));
+                  System.out.println("Looks like you're hurt pretty bad. Luckily, you're able to use up to one item at the\nupkeep of your turn.Check your inventory for any items worth using.\n[ Use a healing potion. ]\n");
+                  MC.addItemToInventory(Item.forceNewItem(13));
                   System.out.print("Enter Command: View Inventory");
                   input = scanner.nextLine();
               } if (input.contains("")) {
@@ -92,8 +96,8 @@ public class Game {
                   input = scanner.nextLine();
               } if (input.contains("")) {
                   MC.useItem("HEALTH POTION");
-                  System.out.println("\n\n\n\n\n\n\n\n\n\nGreat! Because you're still badly injured, make sure to defend this turn.\nDefending makes you take reduced damage(fully negated if you have a powerful enough shield), and allows you to use another\nitem at the upkeep of your turn if you need it.\nBlocking an attack without any shield equipped will always reduce the damage recieved by a minimum of 50%.\n");
-                  System.out.println("                                         ----------------------------"                              
+                  System.out.println("\nGreat! Because you're still badly injured, make sure to defend this turn.\nDefending makes you take reduced damage(fully negated if you have a powerful enough\nshield), and allows you to use another item at the upkeep of your turn. Blocking an\nattack without any shield equipped will always reduce the damage recieved\nby a minimum of 50%.");
+                  System.out.println("\n\n\n\n\n                                         ----------------------------"                              
                                   +"\n                                         | Attack | Defend |  xxxx  |"
                                   +"\n[ Defend the enemy's incoming attack. ]  ----------------------------");
                   System.out.print("Enter Command: Defend");
@@ -103,7 +107,7 @@ public class Game {
                   System.out.println("[ Enemy hit you for 8 damage. ]\n\n[ Press [ENTER] to proceed.]");
                   input = scanner.nextLine();
               } if (input.contains("")) {
-                  System.out.println("That covers all the mechanics of combat! Feel free to reopen this guide at any time if you ever feel confused about any combat mechanics.");
+                  System.out.println("That covers all the mechanics of combat! Feel free to reopen this guide at any time if\nyou ever feel confused about any combat mechanics.");
               }
               MC.setHP(initialHealth);
             }
@@ -125,7 +129,7 @@ public class Game {
                   }
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
             }
-            else if (input.contains("INVENTORY")) {
+            else if (input.contains("INVENTORY") || input.equals("ITEM")) {
                System.out.println("Checking through your bag, you find:\n"+MC.viewInventory());
             }
             else if (input.startsWith("USE ") || input.startsWith("ITEM") || input.startsWith("EQUIP ")) {
@@ -197,25 +201,35 @@ public class Game {
                            } else {
                            System.out.println("You hastily grab the "+itemsInRoom.get(i).toString().toLowerCase()+", hoping nothing minds you taking it.");
                            }
-                           //have a monster attack you with a 30% chance per item or initiated via fight.
-                           System.out.println("> Luckily, it seems your actions have gone unnoticed, as you stow the "+itemsInRoom.get(i).toString().toLowerCase()+" away into your bag.");
-                           //Success
+                           if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*4 > 3) {
+                              System.out.println("> Suddenly, you hear a low growl from behind your back! Whirling around, you see a\n"+dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0)+" poised to strike--!");
+                              currentStage = "Upkeep";
+                              allottedItems = 1;
+                              inCombat = true;
+                              enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
+                              getCombatMenu(allottedItems);
+                           } else {System.out.println("> Luckily, it seems your actions have gone unnoticed, as you stow the\n"+itemsInRoom.get(i).toString().toLowerCase()+" away into your bag.");}
                         } else {
                            if(!itemsInRoom.get(i).isNewItem()) {
                               System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+" from the rough stone floor.");
                            } else {
-                              System.out.println("You kneel onto the rough cobblestone floor to steal the "+itemsInRoom.get(i).toString().toLowerCase()+" off whatever creature or corpse previously owned it.");
-                              System.out.println("> Amidst the suffocating darkness, you feel as though a pair of vigilant eyes are piercing a hole through the back of your head; although nothing makes a move to stop you... Yet.");
-                           }
-                           //Success?
-                           //have a monster attack you with a 30% chance per item or initiated via fight.
-                           //"Suddenly, you hear a scrape from behind you--[Innitiate combat!]"
+                              System.out.println("You kneel onto the rough cobblestone floor to steal the "+itemsInRoom.get(i).toString().toLowerCase()+" off whatever\ncreature or corpse previously owned it.");
+                              System.out.print("> Amidst the suffocating darkness, you feel as though a pair of vigilant eyes are\npiercing a hole through the back of your head");
+                           }  
+                           if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*3 > 2) {
+                              System.out.println("....Suddenly, you hear a scrape from\nbehind you! Whirling around, you see a pair of wide eyes accented by gleaming\nteeth uncomfortably near your head--!");
+                              currentStage = "Upkeep";
+                              allottedItems = 1;
+                              inCombat = true;
+                              enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
+                              getCombatMenu(allottedItems);
+                           } else {System.out.println("; although nothing makes a move to stop\nyou... Yet.");}
                         }
                         MC.addItemToInventory(itemsInRoom.get(i));
                         dungeonMap.getRoom(MC.getX(), MC.getY()).removeItemFromRoom(itemsInRoom.get(i));
                         System.out.println("");
                      }
-                  } System.out.println("You cannot find an item by that name within this room. Maybe you are looking for something else?..\n[ Attempted item: "+chosenItem+" ]\n");
+                  } if(!success){System.out.println("You cannot find an item by that name within this room. Maybe you are looking for\nsomething else?..\n[ Attempted item: "+chosenItem+" ]\n");}
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom(); - Monster arraylist
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom(); - Item arraylist
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
@@ -290,8 +304,9 @@ public class Game {
                System.out.println("[ You hit "+enemy.getMonsterType()+" for "+playerDamage+" damage! ]");
                if(enemy.getHealth() < 0) {enemy.setHealth(0);}
                System.out.println("[ "+enemy.getMonsterType()+" has "+enemy.getHealth()+" health remaining. ]\n\n[ Press [ENTER] to proceed.]");
-                  allottedItems = 0;
-                  currentStage = "Enemy";
+               commandPrompt = false;
+               allottedItems = 0;
+               currentStage = "Enemy";
                if(enemy.getHealth() == 0) {
                   System.out.println("[ "+enemy.getMonsterType()+" has been slain! ]\n");
                   dungeonMap.getRoom(MC.getX(), MC.getY()).removeMonsterFromRoom(enemy);
@@ -306,11 +321,19 @@ public class Game {
             else if (inCombat == true && currentStage.equals("Upkeep") && input.startsWith("DEFEND")) {
                playerStatus = "Defending";
                System.out.println("You assume a defensive stance, preparing for the worst.\n\n[ Press [ENTER] to proceed.]");
+               commandPrompt = false;
                allottedItems = 2;
                currentStage = "Enemy";
             }
             else if (inCombat == true && currentStage.equals("Upkeep") && (input.startsWith("FLEE") || input.startsWith("RUN") || input.startsWith("ESCAPE"))) {
-               System.out.println("..You narrowly escape the encounter.\n");
+               System.out.print("..You narrowly escape the encounter");
+               if(Math.random()*8 > 5) {
+                  System.out.println(", however you sustain a few scratches from the\nmonster.\n");
+                  int enemyDamage = enemy.getDamage()*((int)(Math.random() * 2)+1);
+                  if(MC.getEquippedArmor() != null) {
+                     MC.setHP(MC.getHP() - (int)((double)enemyDamage*(((double)MC.getEquippedArmor().getArmor())/100)));
+                  } else {MC.setHP(MC.getHP() - enemyDamage);}
+               } else {System.out.println(" without any further injuries.\n");}
                allottedItems = 1;
                combatDuration = 0;
                currentStage = "Upkeep";

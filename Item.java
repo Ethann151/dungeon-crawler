@@ -21,7 +21,7 @@ public class Item {
             "Lit Torch [1]",
             "Silver Key",  //Allows you to enter the final room at one of the corners of the map, dropped by dragon
             "Dragon Egg", //Basilisk drop - Summons dragon boss @ 10% rate per room entered with the egg in inventory
-            "The Hero's Blade", //-- "A lightweight runic blade that glows upon your touch. Somehow, you find that you are able to read the runes inscribed on the steel; "The Prophecised One shall take this blade and slay the greatest of foes, freeing the inhabitants of this dungeon from their bloodthirsty desires. Only that who is destined for salvation may lift this blade from its' scabbard."
+            "The Hero's Blade", 
             // One time spawn (No monsters or other items in room) & guarentees Basilisk fight immediately after taking; 23 magic dmg w/ 1.5x damage on Giant foes "...A powerful foe is drawn towards your weapon."
             // "This room feels... Different.\nA dull glow eminates from the lone blade sitting before you.
             //Rollable
@@ -94,24 +94,25 @@ public class Item {
    
    private void setItemStats() {
       // Weapons
-      if(this.itemType.equals("Rusty Sword")) {damage=7;type="Weapon";}
-      else if(this.itemType.equals("The Hero's Blade")) {damage=23;type="Weapon - Magic";}
-      else if(this.itemType.equals("Goblin Dagger")) {damage=7;type="Weapon";}
-      else if(this.itemType.equals("Venomous Dagger")) {damage=10;type="Weapon - Poison";}
-      else if(this.itemType.equals("Silver Longsword")) {damage=17;type="Heavy Weapon - Silver";}
+      if(this.itemType.equals("Rusty Sword")) {damage=7;type="Weapon";description="A flimsy copper blade riddled with rust. It's something, at least.";}
+      else if(this.itemType.equals("The Hero's Blade")) {damage=23;type="Weapon - Magic";description="A lightweight runic blade that luminesces upon your touch. Somehow, you find that you are able to read the runes inscribed on the steel; \"The Prophecised One shall take this blade and slay the greatest of foes, freeing the inhabitants of this dungeon from their bloodthirsty desires. Only that who is destined for salvation may lift this blade from its scabbard.\"";}
+      else if(this.itemType.equals("Goblin Dagger")) {damage=7;type="Weapon";description="A small serrated blade commonly seen in robbings within the backstreets of Phaiden. You think it could probably get some use due to the cramped nature of these catacombs.";}
+      else if(this.itemType.equals("Venomous Dagger")) {damage=10;type="Weapon - Poison";description="A razor-sharp dagger coated in a substance you'd rather not touch. It definitely works on monsters, though.";}
+      else if(this.itemType.equals("Silver Longsword")) {damage=17;type="Heavy Weapon - Silver";description="A long, weighted blade comprised of some sort of silver-alloy. It seems significantly more effective against Werewolves and such, despite not being fully silver.";}
       // Armor
-      else if(this.itemType.equals("Leather Chestplate")) {damageReduction=25;type="Armor";}
-      else if(this.itemType.equals("Iron Chestplate")) {damageReduction=40;type="Armor";}
+      else if(this.itemType.equals("Leather Chestplate")) {damageReduction=25;type="Armor";description="A lightweight, thin chestplate. It could probably absorb a few blows, but you wouldn't stake your life on it.";}
+      else if(this.itemType.equals("Iron Chestplate")) {damageReduction=40;type="Armor";description="A strong chestplate comprised almost entirely of iron; aside from some faint adornment in what seems to be runic gold-- The power is long gone, though.";}
       // Shields
-      else if(this.itemType.equals("Wooden Shield")) {block=0.6;type="Shield";}
-      else if(this.itemType.equals("Iron Shield")) {block=0.75;type="Shield";}
-      else if(this.itemType.equals("Adamantite Shield")) {block=0.9;type="Shield";}
+      else if(this.itemType.equals("Wooden Shield")) {block=0.6;type="Shield";description="A slightly-rotten shield comprised of wood and iron. You hope you'll never have to discover if it could actually deflect a blade.";}
+      else if(this.itemType.equals("Iron Shield")) {block=0.75;type="Shield";description="A generic iron shield well-known in Phaiden for its reliability.";}
+      else if(this.itemType.equals("Adamantite Shield")) {block=0.9;type="Shield";description="A strange magical shield comprised of an extremely precious runic element: Adamantite.";}
       // Amulets
-      else if(this.itemType.equals("Magic Amulet")) {type="Accessory - Necklace";}
+      else if(this.itemType.equals("Magic Amulet")) {type="Accessory - Necklace";details="Improves the wearer's magical abilities by a factor of 20%";description="A small silver pendant radiating lingering magic from a time long before";}
       // Rings
-      else if(this.itemType.equals("Cursed Ring")) {type="Accessory - Ring";}
+      else if(this.itemType.equals("Cursed Ring")) {type="Accessory - Ring";details="Vastly improves physical prowess at the cost of recieving 5 self-damage every turn of combat.";description="A small crimson ring adorned in numerous runes all across its surface. The presence of it makes you uneasy.";}
       // Items/misc.
       else if(this.itemType.equals("Compass")) {type="Tool";description="A nifty tool that displays the direction that it is facing. It's pretty useful for navigation, so you figure it's best to keep it around.";}
+      else if(this.itemType.equals("Tattered Map")) {type="Tool";description="A map of the dungeon. A room near the edge of the map appears to be marked with a door, although it looks to be locked.";}
    }
       
    public String toString() {
