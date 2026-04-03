@@ -116,7 +116,7 @@ public class Game {
             
             
             else if(MC.getHP() <= 0) {
-                  System.out.print("Your vision darkens for a moment, and you stumble on your feet-- Looking down, you see\nyour ripped and bloodied clothes. Below that, you notice the steadily growing pool of\nwhat appears to be your own blood below your feet.\n> Your vision darkens once more.\n> ...You realize you don't have long to live.\n...You stumble on the sharp rocks beneath you and fall to the ground; now staring up at\nthe dark tiles above.\n\nAs your vision goes dark for the final time, you try not to think about what kind of\ncreature will feed off your remains.\n\n[ GAME OVER : YOU DIED... ]");
+                  System.out.print("Your vision darkens for a moment, and you stumble on your feet-- Looking down, you see\nyour ripped and bloodied clothes. Below that, you notice the steadily growing pool of\nwhat appears to be your own blood underneath your feet.\n> Your vision darkens once more.\n> ...You realize you don't have long to live.\n...You stumble on the sharp rocks beneath you and fall to the ground; now staring up at\nthe dark tiles above.\n\nAs your vision goes dark for the final time, you try not to think about what kind of\ncreature will feed off your remains.\n\n[ GAME OVER : YOU DIED... ]");
                   exitGame = true;
             }
             else if (input.equals("LOOK") || input.equals("SEARCH")) {
