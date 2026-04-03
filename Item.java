@@ -3,6 +3,7 @@ public class Item {
    private int armor = 1;
    private double block = 1;
    private int damageReduction = 0;
+   private String details;
    private String type = "N/A";
    private String itemType;
    private String description;
@@ -19,6 +20,7 @@ public class Item {
             "Lit Torch [2]",
             "Lit Torch [1]",
             "Silver Key",  //Allows you to enter the final room at one of the corners of the map, dropped by dragon
+            "Dragon Egg", //Basilisk drop - Summons dragon boss @ 10% rate per room entered with the egg in inventory
             "The Hero's Blade", //-- "A lightweight runic blade that glows upon your touch. Somehow, you find that you are able to read the runes inscribed on the steel; "The Prophecised One shall take this blade and slay the greatest of foes, freeing the inhabitants of this dungeon from their bloodthirsty desires. Only that who is destined for salvation may lift this blade from its' scabbard."
             // One time spawn (No monsters or other items in room) & guarentees Basilisk fight immediately after taking; 23 magic dmg w/ 1.5x damage on Giant foes "...A powerful foe is drawn towards your weapon."
             // "This room feels... Different.\nA dull glow eminates from the lone blade sitting before you.
@@ -36,7 +38,6 @@ public class Item {
             "Cursed Ring", //25% bonus damage but 5 self-damage per turn
             "Potion of Invisibility", //Allows you to avoid forced combat for 5 rooms or dodge 3 attacks within combat
             "Iron Shield",
-            "Dragon Egg", //Basilisk drop - Summons dragon boss @ 10% rate per room entered with the egg in inventory
             "Trap Disarming Kit", //
             "Crystal Ball", //Gaze into the ball for 1.2x magic damage bonus lasting 5 turns (or 1 combat encounter, whichever is shorter). Shatters when dropped.
             "Venomous Dagger", //10 damage w/ 3 poision damage for 2 turns (poision stacks seperately for dmg & duration)
@@ -84,9 +85,9 @@ public class Item {
       } else if(type.contains("Shield")) {
          returnString = this.itemType+"\n----------\n"+(1-this.block)+" Blocking Power\n"+"\" "+this.description+" \"\n";
       } else if(type.contains("Accessory")) {
-         returnString = this.itemType+"\n----------\n\" "+this.description+" \"\n";
+         returnString = this.itemType+"\n----------\n"+this.details+"\n\" "+this.description+" \"\n";
       } else if(type.contains("Tool")) {
-         returnString = this.itemType+"\n----------\n\" "+this.description+" \"\n";
+         returnString = this.itemType+"\n----------\n"+this.details+"\n\" "+this.description+" \"\n";
       }
       return returnString;
    }
@@ -102,9 +103,9 @@ public class Item {
       else if(this.itemType.equals("Leather Chestplate")) {damageReduction=25;type="Armor";}
       else if(this.itemType.equals("Iron Chestplate")) {damageReduction=40;type="Armor";}
       // Shields
-      else if(this.itemType.equals("Wooden Shield")) {block=0.75;type="Shield";}
-      else if(this.itemType.equals("Iron Shield")) {block=0.5;type="Shield";}
-      else if(this.itemType.equals("Adamantite Shield")) {block=0.2;type="Shield";}
+      else if(this.itemType.equals("Wooden Shield")) {block=0.6;type="Shield";}
+      else if(this.itemType.equals("Iron Shield")) {block=0.75;type="Shield";}
+      else if(this.itemType.equals("Adamantite Shield")) {block=0.9;type="Shield";}
       // Amulets
       else if(this.itemType.equals("Magic Amulet")) {type="Accessory - Necklace";}
       // Rings

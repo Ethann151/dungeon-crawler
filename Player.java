@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Player {
    private ArrayList<Item> inventory;
@@ -90,7 +90,7 @@ public class Player {
       for(int i = 0; i < inventory.size(); i++) {
          String equippedStatus = "\n";
          if(inventory.get(i).isEquipped()) {
-            String equipped = " [EQUIPPED]\n";
+            equippedStatus = " [EQUIPPED]\n";
          }
          String itemName = inventory.get(i).toString(); 
          if(itemList.contains(itemName)) {
@@ -107,102 +107,8 @@ public class Player {
       return returnList;
    }
    
-   public void beginCombat(Monster enemy) {
-      int poisionTime = 0;
-      int poisionDamage = 0;
-      int monsterHealth;
-      int monsterDamage;
-      String specialType;
-      //To be removed ^^^
-      String combatGUI = "                                         ----------------------------\n                                         | Attack | Defend |  Item  |\n                                         ----------------------------";
-      
-      // Entrance text & combat values
-      if(enemy.getMonsterType().equals("Goblin")) {
-      monsterHealth = 40;
-      monsterDamage = 6;
-      specialType = "Goblin";
-      } else if(enemy.getMonsterType().equals("Skeleton Warrior")) {
-      monsterHealth = 40;
-      monsterDamage = 9;
-      specialType = "Undead";
-      } else if(enemy.getMonsterType().equals("Zombie")) {
-      monsterHealth = 35;
-      monsterDamage = 4;
-      specialType = "Undead";
-      } else if(enemy.getMonsterType().equals("Orc")) {
-      monsterHealth = 60;
-      monsterDamage = 12;
-      specialType = "Giant";
-      } else if(enemy.getMonsterType().equals("Dark Sorcerer")) {
-      monsterHealth = 75;
-      monsterDamage = 10; // Magic damage, uses spells
-      specialType = "Mage";
-      } else if(enemy.getMonsterType().equals("Giant Spider")) {
-      monsterHealth = 40;
-      monsterDamage = 7; // Poison
-      specialType = "Giant";
-      } else if(enemy.getMonsterType().equals("Vampire Bat")) {
-      monsterHealth = 15;
-      monsterDamage = 4;
-      } else if(enemy.getMonsterType().equals("Slime")) {
-      monsterHealth = 10;
-      monsterDamage = 3;
-      } else if(enemy.getMonsterType().equals("Mimic")) {
-      //Subject to change; add mimic function : "Chest..?"
-      //1/10 chance for chest room; 1/3 chance a chest is a mimic. Chest rooms are guarenteed 0 items and will spawn 0(66%)-1(33%) large/greedy monsters (e.g. miniboss, Giant, Goblin)-
-      monsterHealth = 75;
-      monsterDamage = 4;
-      } else if(enemy.getMonsterType().equals("Lich")) {
-      monsterHealth = 60;
-      monsterDamage = 10;
-      specialType = "Undead Mage";
-      } else if(enemy.getMonsterType().equals("Troll")) {
-      monsterHealth = 100;
-      monsterDamage = 15;
-      specialType = "Giant";
-      } else if(enemy.getMonsterType().equals("Werewolf")) {
-      monsterHealth = 55;
-      monsterDamage = 15;
-      specialType = "Giant Beast";
-      } else if(enemy.getMonsterType().equals("Gargoyle")) {
-      monsterHealth = 60; // 30% dr
-      monsterDamage = 8;
-      } else if(enemy.getMonsterType().equals("Wraith")) {
-      monsterHealth = 50; // 50% chance your attacks miss its' form
-      monsterDamage = 6;
-      specialType = "Mage";
-      } else if(enemy.getMonsterType().equals("Minotaur")) {
-      monsterHealth = 150;
-      monsterDamage = 12;
-      specialType = "Giant Beast";
-      } else if(enemy.getMonsterType().equals("Doppelgänger")) {
-      // "It's... You."
-      monsterHealth = health;
-      monsterDamage = 10;
-      } else if(enemy.getMonsterType().equals("Demon Hound")) {
-      monsterHealth = 60;
-      monsterDamage = 7;
-      specialType = "Beast";
-      } else if(enemy.getMonsterType().equals("Basilisk")) {
-      monsterHealth = 300;
-      monsterDamage = 15;
-      specialType = "Giant";
-      //Miniboss
-      } else if(enemy.getMonsterType().equals("Ancient Dragon")) {
-      monsterHealth = 400;
-      monsterDamage = 20;
-      specialType = "Giant";
-      //Boss
-      }
-      // End stats
-      
-      System.out.println(combatGUI);
-   }
    
-   
-   
-   
-   public void useItem(String chosenItem) {
+   public boolean useItem(String chosenItem) {
       if((chosenItem.equals("MAP") || chosenItem.equals("TATTERED MAP")) && hasItem("Tattered Map")) {
          if(hasItem("Lit Torch [3]") || hasItem("Lit Torch [2]")) {
             System.out.print("> With the torchlight illuminating your map, you see that you are within the ");
@@ -227,7 +133,7 @@ public class Player {
          removeStringItemFromInventory("Unlit Torch");
          addItemToInventory(Item.forceNewItem(4));
          
-      } else if((chosenItem.equals("HEALING POTION") || chosenItem.equals("HEALTH POTION") || chosenItem.equals("HEAL")) && hasItem("Healing Potion")) {
+      } else if((chosenItem.equals("HEALING POTION") || (chosenItem.equals("POTION") || chosenItem.equals("HEALTH POTION") || chosenItem.equals("HEALTH") || chosenItem.equals("HEAL")) && hasItem("Healing Potion")) {
          System.out.println("You wrench the cork off your healing potion, immediately downing its' contents.\n> You feel healthier.");
          if(health < maxHealth -50) {
             health+=50;
@@ -240,21 +146,22 @@ public class Player {
       } else if(!inventory.contains(chosenItem)) {
          System.out.println("You search your bag, but you cannot find an item by that name. Perhaps you are looking for the wrong thing?..");
          System.out.println("[ Attempted item: "+chosenItem+" ]");
+         return false;
       } else {
          System.out.println("[ \"I don't need this right now.\" ]");
+         return false;
       }
+      return true;
    }
 
    public String damage(int dmg, Monster source) {
       health-=dmg;
       return "[ "+source.toString()+" hit you for "+dmg+" damage. ]";
    }
-   public void setHP(int health) {
-      this.health = health;
-   }
    public int getX(){return currentX;}
    public int getY(){return currentY;}
    public int getHP(){return health;}
+   public void setHP(int health) {this.health = health;}
    public Item getEquippedWeapon() {return equippedWeapon;}
    public void setEquippedWeapon(Item weapon) {equippedWeapon = weapon;}
    public Item getEquippedArmor() {return equippedArmor;}
