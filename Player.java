@@ -133,7 +133,7 @@ public class Player {
          removeStringItemFromInventory("Unlit Torch");
          addItemToInventory(Item.forceNewItem(4));
          
-      } else if((chosenItem.equals("HEALING POTION") || (chosenItem.equals("POTION") || chosenItem.equals("HEALTH POTION") || chosenItem.equals("HEALTH") || chosenItem.equals("HEAL")) && hasItem("Healing Potion")) {
+      } else if((chosenItem.equals("HEALING POTION") || (chosenItem.equals("POTION") || chosenItem.equals("HEALTH POTION") || chosenItem.equals("HEALTH") || chosenItem.equals("HEAL")) && hasItem("Healing Potion"))) {
          System.out.println("You wrench the cork off your healing potion, immediately downing its' contents.\n> You feel healthier.");
          if(health < maxHealth -50) {
             health+=50;

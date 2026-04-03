@@ -303,7 +303,7 @@ public class Game {
             }
             else if (inCombat == true && input.startsWith("DEFEND")) {
                playerStatus = "Defending";
-               System.out.println("You assume a defensive stance, preparing for the worst.\n");
+               System.out.println("You assume a defensive stance, preparing for the worst.\n\n[ Press [ENTER] to proceed.]\n");
                allottedItems = 2;
                currentStage = "Enemy";
             }
