@@ -281,7 +281,7 @@ public class Game {
                   System.out.println("[ Attempted combatant: "+target+" ]\n");
                }
             }
-            else if (inCombat == true && input.startsWith("ATTACK")) {
+            else if (inCombat == true && currentStage.equals("Upkeep") && input.startsWith("ATTACK")) {
                playerStatus = "Attacking";
                int playerDamage;
                if(MC.getEquippedWeapon() != null) {playerDamage = MC.getEquippedWeapon().getDamage();}
@@ -303,13 +303,13 @@ public class Game {
                   enemy = null;
                }
             }
-            else if (inCombat == true && input.startsWith("DEFEND")) {
+            else if (inCombat == true && currentStage.equals("Upkeep") && input.startsWith("DEFEND")) {
                playerStatus = "Defending";
                System.out.println("You assume a defensive stance, preparing for the worst.\n\n[ Press [ENTER] to proceed.]");
                allottedItems = 2;
                currentStage = "Enemy";
             }
-            else if (inCombat == true && (input.startsWith("FLEE") || input.startsWith("RUN") || input.startsWith("ESCAPE"))) {
+            else if (inCombat == true && currentStage.equals("Upkeep") && (input.startsWith("FLEE") || input.startsWith("RUN") || input.startsWith("ESCAPE"))) {
                System.out.println("..You narrowly escape the encounter.\n");
                allottedItems = 1;
                combatDuration = 0;
@@ -405,14 +405,14 @@ public class Game {
                if(MC.hasItem("Lit Torch [3]")) {
                   MC.removeStringItemFromInventory("Lit Torch [3]");
                   MC.addItemToInventory(Item.forceNewItem(5));
-                  System.out.println("> As you move, you can feel your torch dimming by the second. You feel this illumination won't last long.");
+                  System.out.println("> As you move, you can feel your torch dimming by the second. You feel this illumination\nwon't last long.");
                } else if(MC.hasItem("Lit Torch [2]")) {
                   MC.removeStringItemFromInventory("Lit Torch [2]");
                   MC.addItemToInventory(Item.forceNewItem(6));
                   System.out.println("> Your torch barely illuminates a thing anymore... It could go out at any second.");
                } else if(MC.hasItem("Lit Torch [1]")) {
                   MC.removeStringItemFromInventory("Lit Torch [1]");
-                  System.out.println("> Your torch flickers.. And then goes out completely. As darkness rapidly engulfs you, you get the sense that you are being watched.");
+                  System.out.println("> Your torch flickers.. And then goes out completely. As darkness rapidly engulfs you,\nyou get the sense that you are being watched.");
                }
                if(MC.hasItem("Tattered Map")) {
                   System.out.print(". . .\nAfter some time, you think it wise to open your map and try to discern your current\nlocation.\n");

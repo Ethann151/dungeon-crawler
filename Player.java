@@ -128,8 +128,8 @@ public class Player {
             } else if(currentX == 2) {returnString+=currentX+1+"rd ";
             } else {returnString+=currentX+1+"th ";
             } returnString+="room to the East.";
-         if(returnString.length() > 85 && returnString.substring(80).indexOf(" ") != -1) {
-            int newIndex = returnString.substring(80).indexOf(" ")+80;
+         if(returnString.length() > 85 && returnString.substring(84).indexOf(" ") != -1) {
+            int newIndex = returnString.substring(84).indexOf(" ")+84;
             returnString = returnString.substring(0, newIndex)+"\n"+returnString.substring(newIndex+1);
          }
          System.out.println(returnString);
