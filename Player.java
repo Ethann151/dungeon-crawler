@@ -150,7 +150,7 @@ public class Player {
          //You firmly grasp your sword within your main hand. Its' presence brings you comfort.
          
       } else if(!inventory.contains(chosenItem)) {
-         System.out.println("You search your bag, but you cannot find an item by that name. Perhaps you are looking for the wrong thing?..");
+         System.out.println("You search your bag, but you cannot find an item by that name. Perhaps you are looking\nfor the wrong thing?..");
          System.out.println("[ Attempted item: "+chosenItem+" ]");
          return false;
       } else {

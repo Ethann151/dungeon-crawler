@@ -243,7 +243,7 @@ public class Game {
             else if (input.startsWith("DROP ")) {
                String chosenItem = input.substring(5);
                if(!inCombat) {
-                  if(MC.hasItem(chosenItem)) {
+                  if(MC.getInventoryList().size() != 0 && MC.hasItem(chosenItem)) {
                      String removedItem = MC.getItemFromInventory(chosenItem).toString();
                      if(removedItem.equals("Lit Torch [3]") || removedItem.equals("Lit Torch [2]") || removedItem.equals("Lit Torch [1]")) {
                         System.out.println("As you toss your torch, you watch the flame extinguish itself against the cold\ncobblestones beneath you.\n> You doubt it will be of use anymore.\n"); 
