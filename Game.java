@@ -198,7 +198,7 @@ public class Game {
                if(!inCombat) {
                   if(chosenItem.length() =< 3) {
                      for(int i = 0; i < itemsInRoom.size(); i++) {
-                        if(itemsInRoom.get(i).toString().toUpperCase().equals(chosenItem)) {
+                        if(itemsInRoom.get(i).toString().toUpperCase().contains(chosenItem)) {
                            success = true;
                            if(MC.hasItem("Lit Torch [3]") || MC.hasItem("Lit Torch [2]") || MC.hasItem("Lit Torch [1]")) {
                               if(!itemsInRoom.get(i).isNewItem()) {
