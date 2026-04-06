@@ -298,7 +298,7 @@ public class Game {
                   System.out.println("[ Attempted combatant: "+target+" ]\n");
                }
             }
-            else if (inCombat == true && currentStage.equals("Upkeep") && input.startsWith("ATTACK")) {
+            else if (inCombat == true && currentStage.equals("Upkeep") && (input.startsWith("ATTACK") || input.equals("A"))) {
                playerStatus = "Attacking";
                int playerDamage;
                if(MC.getEquippedWeapon() != null) {playerDamage = MC.getEquippedWeapon().getDamage();}
@@ -322,7 +322,7 @@ public class Game {
                   commandPrompt = true;
                }
             }
-            else if (inCombat == true && currentStage.equals("Upkeep") && input.startsWith("DEFEND")) {
+            else if (inCombat == true && currentStage.equals("Upkeep") && (input.startsWith("DEFEND") || input.equals("D"))) {
                playerStatus = "Defending";
                System.out.println("You assume a defensive stance, preparing for the worst.\n\n[ Press [ENTER] to proceed.]");
                commandPrompt = false;
@@ -335,7 +335,7 @@ public class Game {
                   System.out.println(", however you sustain a few scratches from the\nmonster.\n");
                   int enemyDamage = enemy.getDamage()*((int)(Math.random() * 2)+1);
                   if(MC.getEquippedArmor() != null) {
-                     MC.setHP(MC.getHP() - (int)((double)enemyDamage*(((double)MC.getEquippedArmor().getArmor())/100)));
+                     MC.setHP(MC.getHP() - (int)((double)enemyDamage*(1 -((double)MC.getEquippedArmor().getArmor()/100))));
                   } else {MC.setHP(MC.getHP() - enemyDamage);}
                } else {System.out.println(" without any further injuries.\n");}
                allottedItems = 1;
@@ -355,7 +355,7 @@ public class Game {
                   }
                }
                if(MC.getEquippedArmor() != null) {
-                  enemyDamage = (int)((double)enemyDamage*(((double)MC.getEquippedArmor().getArmor())/100));
+                  enemyDamage = (int)((double)enemyDamage*(1 -((double)MC.getEquippedArmor().getArmor()/100)));
                }
                   System.out.print("[ "+enemy.getMonsterType()+" hit you for "+enemyDamage+" damage. ]");
                   MC.setHP(MC.getHP()-enemyDamage);

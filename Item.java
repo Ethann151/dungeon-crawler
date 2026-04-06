@@ -100,8 +100,8 @@ public class Item {
       else if(this.itemType.equals("Venomous Dagger")) {damage=10;type="Weapon - Poison";description="A razor-sharp dagger coated in a substance you'd rather not touch. It definitely works on monsters, though.";}
       else if(this.itemType.equals("Silver Longsword")) {damage=17;type="Heavy Weapon - Silver";description="A long, weighted blade comprised of some sort of silver-alloy. It seems significantly more effective against Werewolves and such, despite not being fully silver.";}
       // Armor
-      else if(this.itemType.equals("Leather Chestplate")) {damageReduction=25;type="Armor";description="A lightweight, thin chestplate. It could probably absorb a few blows, but you wouldn't stake your life on it.";}
-      else if(this.itemType.equals("Iron Chestplate")) {damageReduction=40;type="Armor";description="A strong chestplate comprised almost entirely of iron; aside from some faint adornment in what seems to be runic gold-- The power is long gone, though.";}
+      else if(this.itemType.equals("Leather Chestplate")) {armor=25;type="Armor";description="A lightweight, thin chestplate. It could probably absorb a few blows, but you wouldn't stake your life on it.";}
+      else if(this.itemType.equals("Iron Chestplate")) {armor=40;type="Armor";description="A strong chestplate comprised almost entirely of iron; aside from some faint adornment in what seems to be runic gold-- The power is long gone, though.";}
       // Shields
       else if(this.itemType.equals("Wooden Shield")) {block=0.6;type="Shield";description="A slightly-rotten shield comprised of wood and iron. You hope you'll never have to discover if it could actually deflect a blade.";}
       else if(this.itemType.equals("Iron Shield")) {block=0.75;type="Shield";description="A generic iron shield well-known in Phaiden for its reliability.";}
