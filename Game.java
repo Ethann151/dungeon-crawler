@@ -196,44 +196,46 @@ public class Game {
                String chosenItem = input.substring(5);
                ArrayList<Item> itemsInRoom = dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom();
                if(!inCombat) {
-                  for(int i = 0; i < itemsInRoom.size(); i++) {
-                     if(itemsInRoom.get(i).toString().toUpperCase().equals(chosenItem)) {
-                        success = true;
-                        if(MC.hasItem("Lit Torch [3]") || MC.hasItem("Lit Torch [2]") || MC.hasItem("Lit Torch [1]")) {
-                           if(!itemsInRoom.get(i).isNewItem()) {
-                              System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+", hoping nothing minds you taking it.");
+                  if(chosenItem.length() =< 3) {
+                     for(int i = 0; i < itemsInRoom.size(); i++) {
+                        if(itemsInRoom.get(i).toString().toUpperCase().equals(chosenItem)) {
+                           success = true;
+                           if(MC.hasItem("Lit Torch [3]") || MC.hasItem("Lit Torch [2]") || MC.hasItem("Lit Torch [1]")) {
+                              if(!itemsInRoom.get(i).isNewItem()) {
+                                 System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+", hoping nothing minds you taking it.");
+                              } else {
+                              System.out.println("You hastily grab the "+itemsInRoom.get(i).toString().toLowerCase()+", hoping nothing minds you taking it.");
+                              }
+                              if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*4 > 3) {
+                                 System.out.println("> Suddenly, you hear a low growl from behind your back! Whirling around, you see a\n"+dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0)+" poised to strike--!");
+                                 currentStage = "Upkeep";
+                                 allottedItems = 1;
+                                 inCombat = true;
+                                 enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
+                                 getCombatMenu(allottedItems);
+                              } else {System.out.println("> Luckily, it seems your actions have gone unnoticed, as you stow the\n"+itemsInRoom.get(i).toString().toLowerCase()+" away into your bag.");}
                            } else {
-                           System.out.println("You hastily grab the "+itemsInRoom.get(i).toString().toLowerCase()+", hoping nothing minds you taking it.");
+                              if(!itemsInRoom.get(i).isNewItem()) {
+                                 System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+" from the rough stone floor.");
+                              } else {
+                                 System.out.println("You kneel onto the rough cobblestone floor to steal the "+itemsInRoom.get(i).toString().toLowerCase()+" off whatever\ncreature or corpse previously owned it.");
+                                 System.out.print("> Amidst the suffocating darkness, you feel as though a pair of vigilant eyes are\npiercing a hole through the back of your head");
+                              }  
+                              if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*3 > 2) {
+                                 System.out.println("....Suddenly, you hear a scrape from\nbehind you! Whirling around, you see a pair of wide eyes accented by gleaming\nteeth uncomfortably near your head--!");
+                                 currentStage = "Upkeep";
+                                 allottedItems = 1;
+                                 inCombat = true;
+                                 enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
+                                 getCombatMenu(allottedItems);
+                              } else {System.out.println("; although nothing makes a move to stop\nyou... Yet.");}
                            }
-                           if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*4 > 3) {
-                              System.out.println("> Suddenly, you hear a low growl from behind your back! Whirling around, you see a\n"+dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0)+" poised to strike--!");
-                              currentStage = "Upkeep";
-                              allottedItems = 1;
-                              inCombat = true;
-                              enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
-                              getCombatMenu(allottedItems);
-                           } else {System.out.println("> Luckily, it seems your actions have gone unnoticed, as you stow the\n"+itemsInRoom.get(i).toString().toLowerCase()+" away into your bag.");}
-                        } else {
-                           if(!itemsInRoom.get(i).isNewItem()) {
-                              System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+" from the rough stone floor.");
-                           } else {
-                              System.out.println("You kneel onto the rough cobblestone floor to steal the "+itemsInRoom.get(i).toString().toLowerCase()+" off whatever\ncreature or corpse previously owned it.");
-                              System.out.print("> Amidst the suffocating darkness, you feel as though a pair of vigilant eyes are\npiercing a hole through the back of your head");
-                           }  
-                           if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*3 > 2) {
-                              System.out.println("....Suddenly, you hear a scrape from\nbehind you! Whirling around, you see a pair of wide eyes accented by gleaming\nteeth uncomfortably near your head--!");
-                              currentStage = "Upkeep";
-                              allottedItems = 1;
-                              inCombat = true;
-                              enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
-                              getCombatMenu(allottedItems);
-                           } else {System.out.println("; although nothing makes a move to stop\nyou... Yet.");}
+                           MC.addItemToInventory(itemsInRoom.get(i));
+                           dungeonMap.getRoom(MC.getX(), MC.getY()).removeItemFromRoom(itemsInRoom.get(i));
+                           System.out.println("");
                         }
-                        MC.addItemToInventory(itemsInRoom.get(i));
-                        dungeonMap.getRoom(MC.getX(), MC.getY()).removeItemFromRoom(itemsInRoom.get(i));
-                        System.out.println("");
-                     }
-                  } if(!success){System.out.println("You cannot find an item by that name within this room. Maybe you are looking for\nsomething else?..\n[ Attempted item: "+chosenItem+" ]\n");}
+                     } if(!success){System.out.println("You cannot find an item by that name within this room. Maybe you are looking for\nsomething else?..\n[ Attempted item: "+chosenItem+" ]\n");}
+                  } else {System.out.println("[ Your requested input is not specific enough. Please type a longer portion of the desired item name. ]");}
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom(); - Monster arraylist
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom(); - Item arraylist
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
