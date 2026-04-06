@@ -235,7 +235,7 @@ public class Game {
                            System.out.println("");
                         }
                      } if(!success){System.out.println("You cannot find an item by that name within this room. Maybe you are looking for\nsomething else?..\n[ Attempted item: "+chosenItem+" ]\n");}
-                  } else {System.out.println("[ Your requested input is not specific enough. Please type a longer portion of the desired item name. ]\n");}
+                  } else {System.out.println("[ Your requested input is not specific enough. Please type a longer portion of the\ndesired item name. ]\n");}
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom(); - Monster arraylist
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom(); - Item arraylist
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
