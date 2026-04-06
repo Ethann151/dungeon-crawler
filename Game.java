@@ -8,6 +8,7 @@ public class Game {
    public static void main(String[] args) {
       int allottedItems = 1;
       int combatDuration = 0;
+      boolean debug = false;
       boolean commandPrompt = true;
       String currentStage = "Upkeep";
       String playerStatus = null;
@@ -196,7 +197,7 @@ public class Game {
                ArrayList<Item> itemsInRoom = dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom();
                if(!inCombat) {
                   for(int i = 0; i < itemsInRoom.size(); i++) {
-                     if(itemsInRoom.get(i).toString().toUpperCase().contains(chosenItem)) {
+                     if(itemsInRoom.get(i).toString().toUpperCase().equals(chosenItem)) {
                         success = true;
                         if(MC.hasItem("Lit Torch [3]") || MC.hasItem("Lit Torch [2]") || MC.hasItem("Lit Torch [1]")) {
                            if(!itemsInRoom.get(i).isNewItem()) {
@@ -330,20 +331,24 @@ public class Game {
                currentStage = "Enemy";
             }
             else if (inCombat == true && currentStage.equals("Upkeep") && (input.startsWith("FLEE") || input.startsWith("RUN") || input.startsWith("ESCAPE"))) {
-               System.out.print("..You narrowly escape the encounter");
-               if(Math.random()*8 > 5) {
-                  System.out.println(", however you sustain a few scratches from the\nmonster.\n");
-                  int enemyDamage = enemy.getDamage()*((int)(Math.random() * 2)+1);
-                  if(MC.getEquippedArmor() != null) {
-                     MC.setHP(MC.getHP() - (int)((double)enemyDamage*(1 -((double)MC.getEquippedArmor().getArmor()/100))));
-                  } else {MC.setHP(MC.getHP() - enemyDamage);}
-               } else {System.out.println(" without any further injuries.\n");}
-               allottedItems = 1;
-               combatDuration = 0;
-               currentStage = "Upkeep";
-               playerStatus = null;
-               inCombat = false;
-               enemy = null;
+               if(combatDuration < 4) {
+                  System.out.println("[ \"..I can't escape this just yet.\" ]\n");
+               } else {
+                  System.out.print("..You narrowly escape the encounter");
+                  if(Math.random()*8 > 5) {
+                     System.out.println(", however you sustain a few scratches from the\nmonster.\n");
+                     int enemyDamage = enemy.getDamage()*((int)(Math.random() * 2)+1);
+                     if(MC.getEquippedArmor() != null) {
+                        MC.setHP(MC.getHP() - (int)((double)enemyDamage*(1 -((double)MC.getEquippedArmor().getArmor()/100))));
+                     } else {MC.setHP(MC.getHP() - enemyDamage);}
+                  } else {System.out.println(" without any further injuries.\n");}
+                  allottedItems = 1;
+                  combatDuration = 0;
+                  currentStage = "Upkeep";
+                  playerStatus = null;
+                  inCombat = false;
+                  enemy = null;
+               }
             }
             else if(currentStage.equals("Enemy")) {
                int enemyDamage = enemy.getDamage() + combatDuration;
@@ -368,7 +373,7 @@ public class Game {
             // End Combat
             
             
-            else if (input.contains("PRINT DEBUG")) {
+            else if (debug && input.contains("PRINT DEBUG")) {
                String combatStatus = "False";
                if(inCombat) {combatStatus = "True";}
                System.out.println(dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom()+" - Item arraylist\n"
