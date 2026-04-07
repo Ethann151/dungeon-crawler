@@ -120,7 +120,7 @@ public class Game {
                   System.out.print("Your vision darkens for a moment, and you stumble on your feet-- Looking down, you see\nyour ripped and bloodied clothes. Below that, you notice the steadily growing pool of\nwhat appears to be your own blood underneath your feet.\n> Your vision darkens once more.\n> ...You realize you don't have long to live.\n...You stumble on the sharp rocks beneath you and fall to the ground; now staring up at\nthe dark tiles above.\n\nAs your vision goes dark for the final time, you try not to think about what kind of\ncreature will feed off your remains.\n\n[ GAME OVER : YOU DIED... ]");
                   exitGame = true;
             }
-            else if (input.equals("LOOK") || input.equals("SEARCH")) {
+            else if (input.equals("LOOK") || input.equals("SEARCH") || input.equals("L")) {
                if(!inCombat) {
                   if(MC.hasItem("Lit Torch [3]") || MC.hasItem("Lit Torch [2]") || MC.hasItem("Lit Torch [1]")) {
                      System.out.print(MC.look(dungeonMap));
@@ -133,11 +133,11 @@ public class Game {
                   }
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
             }
-            else if (input.contains("INVENTORY") || input.equals("ITEM")) {
+            else if (input.contains("INVENTORY") || input.equals("ITEM") || input.contains("BACKPACK") || input.equals("I")) {
                System.out.println("Checking through your bag, you find:\n"+MC.viewInventory());
             }
-            else if (input.startsWith("USE ") || input.startsWith("ITEM") || input.startsWith("EQUIP ")) {
-               String chosenItem;
+            else if (input.startsWith("USE ") || input.startsWith("ITEM ") || input.startsWith("EQUIP ") || input.startsWith("U ") || input.startsWith("E ")) {
+               String chosenItem = "";
                Boolean successful = false;
                if(!inCombat || allottedItems > 0) {
                   if(input.startsWith("USE ")) {
@@ -146,8 +146,12 @@ public class Game {
                   } else if(input.startsWith("ITEM ")) {
                      chosenItem = input.substring(5);
                      successful = MC.useItem(chosenItem);
-                  } else if(input.startsWith("EQUIP ")) {
-                     chosenItem = input.substring(6);
+                  }  else if(input.startsWith("U ")) {
+                     chosenItem = input.substring(2);
+                     successful = MC.useItem(chosenItem);
+                  } else if(input.startsWith("EQUIP ") || input.startsWith("E ")) {
+                     if(input.startsWith("EQUIP ")){chosenItem=input.substring(6);}
+                     else if(input.startsWith("E ")){chosenItem=input.substring(2);}
                      if(MC.getItemFromInventory(chosenItem) != null) {
                         if(MC.getItemFromInventory(chosenItem).getType().contains("Weapon")) {
                            if(MC.getEquippedWeapon() != null) {MC.getEquippedWeapon().equip(false);}
@@ -191,9 +195,12 @@ public class Game {
                   if(inCombat && successful) {allottedItems-=1;getCombatMenu(allottedItems);}
                } else {System.out.println("[ \" I can't do this right now. \" ]");}
             }
-            else if(input.startsWith("TAKE ")) {
+            else if(input.startsWith("TAKE ") || input.startsWith("T ")) {
                boolean success = false;
-               String chosenItem = input.substring(5);
+               boolean newItem = true;
+               String chosenItem = ""; 
+               if(input.startsWith("TAKE ")){chosenItem=input.substring(5);}
+               else if(input.startsWith("T ")){chosenItem=input.substring(2);}
                ArrayList<Item> itemsInRoom = dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom();
                if(!inCombat) {
                   if(chosenItem.length() > 3) {
@@ -216,19 +223,24 @@ public class Game {
                               } else {System.out.println("> Luckily, it seems your actions have gone unnoticed, as you stow the\n"+itemsInRoom.get(i).toString().toLowerCase()+" away into your bag.");}
                            } else {
                               if(!itemsInRoom.get(i).isNewItem()) {
+                                 newItem = false;
                                  System.out.println("> You hastily reclaim your "+itemsInRoom.get(i).toString().toLowerCase()+" from the rough stone floor.");
                               } else {
                                  System.out.println("You kneel onto the rough cobblestone floor to steal the "+itemsInRoom.get(i).toString().toLowerCase()+" off whatever\ncreature or corpse previously owned it.");
                                  System.out.print("> Amidst the suffocating darkness, you feel as though a pair of vigilant eyes are\npiercing a hole through the back of your head");
                               }  
                               if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && Math.random()*3 > 2) {
-                                 System.out.println("....Suddenly, you hear a scrape from\nbehind you! Whirling around, you see a pair of wide eyes accented by gleaming\nteeth uncomfortably near your head--!");
-                                 currentStage = "Upkeep";
-                                 allottedItems = 1;
-                                 inCombat = true;
-                                 enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
-                                 getCombatMenu(allottedItems);
-                              } else {System.out.println("; although nothing makes a move to stop\nyou... Yet.");}
+                                 if(newItem) {
+                                    System.out.println("....Suddenly, you hear a scrape from\nbehind you! Whirling around, you see a pair of wide eyes accented by gleaming\nteeth uncomfortably near your head--!");
+                                 } else {
+                                    System.out.println("....Suddenly, you hear a scrape from behind you! Whirling around, you see a pair of\nwide eyes accented by gleaming teeth uncomfortably near your head--!");
+                                 }
+                                    currentStage = "Upkeep";
+                                    allottedItems = 1;
+                                    inCombat = true;
+                                    enemy = dungeonMap.getRoom(MC.getX(), MC.getY()).getMonsterInRoom(0);
+                                    getCombatMenu(allottedItems);
+                              } else if(itemsInRoom.get(i).isNewItem()) {System.out.println("; although nothing makes a move to stop\nyou... Yet.");}
                            }
                            MC.addItemToInventory(itemsInRoom.get(i));
                            dungeonMap.getRoom(MC.getX(), MC.getY()).removeItemFromRoom(itemsInRoom.get(i));
@@ -240,8 +252,10 @@ public class Game {
                   //dungeonMap.getRoom(MC.getX(), MC.getY()).getItemsInRoom(); - Item arraylist
                } else{System.out.println("[ \" I can't do this amidst combat. \" ]\n");}
             }
-            else if (input.startsWith("DROP ")) {
-               String chosenItem = input.substring(5);
+            else if (input.startsWith("DROP ") || input.startsWith("D ")) {
+               String chosenItem = "";
+               if(input.startsWith("DROP ")){chosenItem=input.substring(5);}
+               else if(input.startsWith("D ")){chosenItem=input.substring(2);}
                if(!inCombat) {
                   if(MC.getInventoryList().size() != 0 && MC.hasItem(chosenItem)) {
                      String removedItem = MC.getItemFromInventory(chosenItem).toString();
@@ -264,11 +278,13 @@ public class Game {
                   }
                } else{System.out.println("[ \" I shouldn't do this right now. \" ]\n");}
             }
-            else if (input.contains("HEALTH") || input.contains("INJURIES") || input.contains("WOUNDS") || input.contains("HP") || input.equals("J")) {
+            else if (input.contains("HEALTH") || input.contains("INJURIES") || input.contains("WOUNDS") || input.contains("HP") || input.equals("J") || input.equals("H")) {
                System.out.print("[ \""+MC.getHealthPercentage()+"\" ]\n\n");
             }
-            else if (input.contains("INSPECT ")) {
-               String targetItem = input.substring(8);
+            else if (input.contains("INSPECT ") || input.contains("I ")) {
+               String targetItem = "";
+               if(input.startsWith("INSPECT ")){targetItem=input.substring(8);}
+               else if(input.startsWith("I ")){targetItem=input.substring(2);}
                boolean complete = false;
                if(targetItem.equals("WEAPON")) {
                   for(int i = 0; i < MC.getInventoryList().size(); i++) {
@@ -288,8 +304,10 @@ public class Game {
             
             
             // Combat
-            else if (inCombat != true && input.startsWith("FIGHT ")) {
-               String target = input.substring(6);
+            else if (inCombat != true && (input.startsWith("FIGHT ") || input.startsWith("F "))) {
+               String target = "";
+               if(input.startsWith("FIGHT ")){target=input.substring(6);}
+               else if(input.startsWith("F ")){target=input.substring(2);}
                if(dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().size() != 0 && dungeonMap.getRoom(MC.getX(), MC.getY()).getMonstersInRoom().toString().toUpperCase().contains(target)) {
                   currentStage = "Upkeep";
                   allottedItems = 1;
@@ -309,10 +327,7 @@ public class Game {
                enemy.setHealth(enemy.getHealth()-playerDamage);
                System.out.println("[ You hit "+enemy.getMonsterType()+" for "+playerDamage+" damage! ]");
                if(enemy.getHealth() < 0) {enemy.setHealth(0);}
-               System.out.println("[ "+enemy.getMonsterType()+" has "+enemy.getHealth()+" health remaining. ]\n\n[ Press [ENTER] to proceed.]");
-               commandPrompt = false;
-               allottedItems = 0;
-               currentStage = "Enemy";
+               System.out.print("[ "+enemy.getMonsterType()+" has "+enemy.getHealth()+" health remaining. ]\n\n");
                if(enemy.getHealth() == 0) {
                   System.out.println("[ "+enemy.getMonsterType()+" has been slain! ]\n");
                   dungeonMap.getRoom(MC.getX(), MC.getY()).removeMonsterFromRoom(enemy);
@@ -323,6 +338,11 @@ public class Game {
                   inCombat = false;
                   enemy = null;
                   commandPrompt = true;
+               } else {
+                  System.out.println("[ Press [ENTER] to proceed.]");
+                  commandPrompt = false;
+                  allottedItems = 0;
+                  currentStage = "Enemy";
                }
             }
             else if (inCombat == true && currentStage.equals("Upkeep") && (input.startsWith("DEFEND") || input.equals("D"))) {
@@ -405,15 +425,12 @@ public class Game {
 
             // Movement
             mainloop:
-            if (input.startsWith("MOVE ") || input.startsWith("WALK ") || input.startsWith("GO ") || input.startsWith("UP") || input.startsWith("DOWN") || input.startsWith("LEFT") || input.startsWith("RIGHT")) {
+            if (input.startsWith("MOVE ") || input.startsWith("M ") || input.startsWith("W ") || input.startsWith("WALK ") || input.startsWith("GO ") || input.startsWith("UP") || input.startsWith("DOWN") || input.startsWith("LEFT") || input.startsWith("RIGHT")) {
                String direction;
-               if(input.startsWith("GO ")) {
-                  direction = input.substring(3);
-               } else if (input.startsWith("MOVE ") || input.startsWith("WALK ")) {
-                  direction = input.substring(5);
-               } else {
-                  direction = input.substring(0);
-               }
+               if(input.startsWith("GO ")){direction = input.substring(3);}
+               else if (input.startsWith("MOVE ") || input.startsWith("WALK ")){direction = input.substring(5);}
+               else if (input.startsWith("M ") || input.startsWith("W ")){direction = input.substring(2);}
+               else {direction = input.substring(0);}
                String NESW;
                if ((direction.equals("UP") || direction.equals("FORWARD") || direction.equals("FORWARDS") || direction.equals("NORTH") || direction.equals("N")) && (MC.getY()+1 < dungeonMap.getNumRows()-1)) {
                MC.moveTo(MC.getX(), MC.getY()+1);
